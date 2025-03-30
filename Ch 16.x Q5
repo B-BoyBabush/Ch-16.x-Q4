@@ -1,0 +1,92 @@
+#include <iostream>
+#include <vector>
+#include "Random.h"
+
+namespace WordList
+{
+	std::vector<std::string_view> words{ "mystery", "broccoli", "account", "almost", "spaghetti", "opinion", "beautiful", "distance", "luggage"};
+
+	std::string_view getRandomWord()
+	{
+		return words[Random::get<size_t>(0, words.size() - 1)];
+	}
+}
+
+class Session
+{
+private:
+	std::string m_sessionWord{ WordList::getRandomWord() };
+	std::string m_letterTracker{};
+
+public:
+	Session()
+		: m_sessionWord{}
+		, m_letterTracker{}
+	{
+		m_letterTracker.reserve(m_sessionWord.size());
+	}
+
+	std::string_view getSessionWord() const { return m_sessionWord; }
+	std::string_view getLetterTracker() const { return m_letterTracker; }
+};
+
+void stateOfGame(const Session& gameSession)
+{
+	std::string_view word{ gameSession.getSessionWord() };
+
+	std::cout << "The word: ";
+	
+	for (auto letter : word)
+	{
+		if ()
+		
+		
+		
+		std::cout << "_ ";
+	}
+	
+	std::cout << '\n';
+}
+
+char getLetter()
+{
+	while (true)
+	{
+		char input{};
+		std::cout << "Enter your next letter: ";
+		std::cin >> input;
+
+		bool matches{ true };
+		if (input < 'a' || input > 'z')
+			matches = false;
+
+		if (!std::cin || matches == false)
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "That wasn't a valid input. Try again.\n";
+			continue;
+		}
+
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+		std::cout << "You entered: " << input << '\n';
+		return input;
+	}
+}
+
+int main()
+{
+	std::cout << "Welcome to C++man (a variant of Hangman)\n";
+	std::cout << "To win: guess the word. To lose: run out of pluses.\n\n";
+
+	Session first{};
+
+	for (int count; count <= 6; ++count)
+	{
+		stateOfGame(first);
+		getLetter();
+	}
+	
+	return 0;
+}
