@@ -1,0 +1,104 @@
+#include <iostream>
+#include <vector>
+
+template <typename T>
+T max(const std::vector<T>& arr)
+{
+	T max{ arr[0] };
+	
+	for (auto val : arr)
+	{
+		if (max < val)
+			max = val;
+	}
+
+	return max;
+}
+
+template <typename T>
+T min(const std::vector<T>& arr)
+{
+	T min{ arr[0] };
+
+	for (auto val : arr)
+	{
+		if (min > val)
+			min = val;
+	}
+
+	return min;
+}
+
+template <typename T>
+std::pair<size_t, size_t> getIndexPair(const std::vector<T>& arr)
+{
+	size_t maxIndex{};
+	size_t minIndex{};
+
+	for (size_t index{ 0 }; index < arr.size(); ++index)
+	{
+		if (arr[index] < arr[minIndex])
+			minIndex = index;
+
+		if (arr[index] > arr[maxIndex])
+			maxIndex = index;
+	}
+	
+	return std::pair<size_t, size_t>{minIndex, maxIndex};
+}
+
+template <typename T>
+void printArrayMinMaxStats(const std::vector<T>& arr)
+{
+	std::cout << "With array ( ";
+
+	for (int index{ 0 }; index < arr.size(); ++index)
+	{
+		if (index == arr.size() - 1)
+			std::cout << arr[index] << " ";
+		else
+			std::cout << arr[index] << ", ";
+	}
+
+	std::cout << "):\n";
+
+	std::pair<size_t, size_t> minMaxPair{ getIndexPair(arr) };
+
+	std::cout << "The min element has index " << minMaxPair.first << " and value " << min(arr) << '\n';
+	std::cout << "The max element has index " << minMaxPair.second << " and value " << max(arr) << '\n';
+}
+
+std::vector<int> getIntegers()
+{
+	std::vector<int> integers{};
+	
+	std::cout << "Enter numbers to add (use -1 to stop): ";
+
+	while (true)
+	{
+		int input{};
+		std::cin >> input;
+
+		if (integers.empty() && input == -1)
+		{
+			std::cout << "Please enter a valid number series: ";
+			continue;
+		}
+
+		if (input == -1)
+			break;
+
+		integers.push_back(input);
+		std::cout << " ";
+	}
+	
+	return integers;
+}
+
+int main()
+{
+	std::vector<int> integers{ getIntegers() };
+	printArrayMinMaxStats(integers);
+
+	return 0;
+}
